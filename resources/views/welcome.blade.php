@@ -1,55 +1,88 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>StayNet - Dashboard</title>
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+</head>
+<body class="antialiased bg-gray-50 font-[Instrument_Sans] text-gray-900">
 
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="antialiased bg-gray-50 flex items-center justify-center min-h-screen font-[Instrument_Sans]">
-        
-        <div class="max-w-lg w-full bg-white rounded-2xl shadow-xl p-10 text-center border border-gray-100">
-            
-            <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
-                </svg>
-            </div>
-
-            <h1 class="text-3xl font-semibold text-gray-900 mb-4">
-                Simple Authentication
-            </h1>
-            
-            <p class="text-gray-500 text-lg mb-8 leading-relaxed">
-                Where we need to understand how authentication works in Laravel.
-            </p>
-
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                @if (Route::has('login'))
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-200 shadow-sm">
-                            Go to Dashboard
+    @guest
+        <div class="min-h-screen flex flex-col items-center justify-center p-6">
+            <div class="max-w-md w-full bg-white rounded-2xl shadow-xl p-10 text-center border border-gray-100">
+                <h1 class="text-3xl font-semibold mb-4">Welcome to StayNet</h1>
+                <p class="text-gray-500 mb-8">Please log in to access your property dashboard.</p>
+                
+                <div class="flex flex-col gap-3">
+                    <a href="#{{ route('login') }}" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition">
+                        Log in
+                    </a>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="px-6 py-3 bg-gray-50 hover:bg-gray-100 text-gray-700 font-medium rounded-lg border border-gray-200 transition">
+                            Create an Account
                         </a>
-                    @else
-                        <a href="{{ route('login') }}" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-200 shadow-sm">
-                            Log in
-                        </a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="px-6 py-3 bg-gray-50 hover:bg-gray-100 text-gray-700 font-medium rounded-lg border border-gray-200 transition duration-200">
-                                Register
-                            </a>
-                        @endif
-                    @endauth
-                @endif
+                    @endif
+                </div>
             </div>
-            
         </div>
+    @endguest
 
-    </body>
+    @auth
+        <nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center shadow-sm">
+            <div class="text-xl font-semibold text-blue-600">StayNet Admin</div>
+            
+            <div class="flex items-center gap-4">
+                <span class="text-sm text-gray-600">Welcome back, <span class="font-semibold">{{ Auth::user()->name }}</span></span>
+                
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="text-sm px-4 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-md transition">
+                        Log Out
+                    </button>
+                </form>
+            </div>
+        </nav>
+
+        <main class="max-w-7xl mx-auto p-6 mt-6">
+            <h2 class="text-2xl font-semibold mb-6">Overview</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                    <div class="text-sm text-gray-500 mb-1">Total Boarding Houses</div>
+                    <div class="text-3xl font-semibold">12</div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                    <div class="text-sm text-gray-500 mb-1">Active Tenants</div>
+                    <div class="text-3xl font-semibold">48</div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                    <div class="text-sm text-gray-500 mb-1">Available Rooms</div>
+                    <div class="text-3xl font-semibold text-green-600">7</div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+                    <h3 class="font-medium">Recent Inquiries</h3>
+                </div>
+                <div class="p-6 text-sm text-gray-600">
+                    <p class="mb-2 flex justify-between border-b border-gray-50 pb-2">
+                        <span>New message regarding Room 204</span> <span class="text-gray-400">2 mins ago</span>
+                    </p>
+                    <p class="mb-2 flex justify-between border-b border-gray-50 pb-2">
+                        <span>Payment received from Tenant #892</span> <span class="text-gray-400">1 hour ago</span>
+                    </p>
+                    <p class="flex justify-between">
+                        <span>Maintenance request: Leaky faucet</span> <span class="text-gray-400">3 hours ago</span>
+                    </p>
+                </div>
+            </div>
+        </main>
+    @endauth
+
+</body>
 </html>
