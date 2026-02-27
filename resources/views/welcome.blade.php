@@ -6,13 +6,50 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="antialiased">
-        <h1>Hello This is a Simple Authentication page </h1>
-        <p>where we need to understand how authentication works in Laravel.</p>
+    <body class="antialiased bg-gray-50 flex items-center justify-center min-h-screen font-[Instrument_Sans]">
+        
+        <div class="max-w-lg w-full bg-white rounded-2xl shadow-xl p-10 text-center border border-gray-100">
+            
+            <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+                </svg>
+            </div>
+
+            <h1 class="text-3xl font-semibold text-gray-900 mb-4">
+                Simple Authentication
+            </h1>
+            
+            <p class="text-gray-500 text-lg mb-8 leading-relaxed">
+                Where we need to understand how authentication works in Laravel.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                @if (Route::has('login'))
+                    @auth
+                        <a href="{{ url('/dashboard') }}" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-200 shadow-sm">
+                            Go to Dashboard
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-200 shadow-sm">
+                            Log in
+                        </a>
+
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="px-6 py-3 bg-gray-50 hover:bg-gray-100 text-gray-700 font-medium rounded-lg border border-gray-200 transition duration-200">
+                                Register
+                            </a>
+                        @endif
+                    @endauth
+                @endif
+            </div>
+            
+        </div>
+
     </body>
 </html>
