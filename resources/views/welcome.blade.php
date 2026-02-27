@@ -13,5 +13,6 @@
     </head>
     <body class="antialiased">
         <h1>Hello This is a Simple Authentication page </h1>
+        <p>where we need to understand how authentication works in Laravel.</p>
     </body>
 </html>
